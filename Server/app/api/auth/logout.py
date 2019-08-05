@@ -14,9 +14,9 @@ def logout():
     '''
 
     if 'user' not in request.cookies:
-        return 'Login first!', 410
+        return '로그인을 먼저 해주세요.', 410
 
-    resp = make_response('logout complete')
+    resp = make_response('로그아웃 완료!')
     resp.set_cookie('user', '', expires=0)
 
     return resp, 200

@@ -20,14 +20,14 @@ def pw_edit():
     pw_check = data['pw_check']
 
     if 'user' not in request.cookies:
-        return 'login first!', 410
+        return '로그인을 먼저 해주세요.', 410
 
     if pw != pw_check:
-        return 'pw and pw_check are different', 411
+        return '비밀번호와 비밀번호 확인이 서로 같지 않습니다.', 411
 
     user_id = request.cookies.get('user')
 
     with open('data/UserLog/'+user_id, 'w') as f:
         f.write(pw)
 
-    return 'pw_edit complete', 200
+    return '비밀번호 변경 완료!', 200

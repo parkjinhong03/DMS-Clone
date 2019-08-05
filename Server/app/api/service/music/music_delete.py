@@ -15,7 +15,7 @@ def music_delete():
     '''
 
     if 'user' not in request.cookies:
-        return 'login first', 410
+        return '로그인을 먼저 해주세요.', 410
     my_name = request.cookies.get('user')
 
     date_list = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
@@ -25,9 +25,9 @@ def music_delete():
         if os.path.exists('data/Music/'+i+'/'+my_name):
             os.remove('data/Music/'+i+'/'+my_name)
             count += 1
-            return 'music delete complete', 200
+            return '기상 음악 취소 완료!', 200
 
     if count == 0:
-        return 'You have never applied music.', 411
+        return '전에 신청해준 기상 음악이 없습니다.', 411
 
     os.remove('data/Music')

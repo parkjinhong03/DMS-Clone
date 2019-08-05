@@ -15,7 +15,7 @@ def music_list():
     '''
 
     if 'user' not in request.cookies:
-        return 'login first', 410
+        return '로그인을 먼저 해주세요.', 410
 
     date_list = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     return_dict = {}
