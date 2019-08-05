@@ -23,7 +23,7 @@ def login():
 
     with open('data/UserLog/'+id) as f:
         if pw == f.readline():
-            resp = make_response('complete')
+            resp = make_response('login complete')
             resp.set_cookie('user', id)
             return resp, 200
 

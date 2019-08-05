@@ -29,4 +29,4 @@ def signup():
     with open('data/UserLog/'+id, 'w') as f:
         f.write(pw)
 
-    return 'complete!', 200
+    return 'signup complete!', 200
