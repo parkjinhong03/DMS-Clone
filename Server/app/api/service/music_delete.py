@@ -1,11 +1,11 @@
 '''
-기상 음악 신청 모듈
+기상 음악 취소 모듈
 '''
 
 from flask import Flask, request, make_response
 import os
 
-def music_apply_delete():
+def music_delete():
     '''
     :parameter: X
     :return: status code

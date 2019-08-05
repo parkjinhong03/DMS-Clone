@@ -4,6 +4,7 @@
 
 from flask import Flask, request, make_response
 import os
+import json
 
 def music_apply():
     '''
@@ -31,7 +32,7 @@ def music_apply():
 
     # 413 예외처리
     if date not in date_list:
-        return 'Please give the setted value of the date.(Mon, Tue, Wed, Thu, Fri)'
+        return 'Please give the setted value of the date.(Mon, Tue, Wed, Thu, Fri)', 413
 
     # 411 예외처리
     for i in date_list:
@@ -48,8 +49,8 @@ def music_apply():
     # 200 처리
     with open('data/Music/'+date+'/'+my_name, 'w') as f:
         music_dict = {}
-        music_dict['title'] = title
-        music_dict['artist'] = artist
-        f.write(str(music_dict))
+        music_dict["title"] = title
+        music_dict["artist"] = artist
+        f.write(json.dumps(music_dict))
 
     return 'apply music complete', 200
