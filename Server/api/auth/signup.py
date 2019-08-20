@@ -14,7 +14,7 @@ def signup():
     410 - 이미 존재하는 아이디
     411 - 비밀번호와 비밀번호 확인 값이 다름
     '''
-    data = request.form
+    data = request.json
 
     id = data['id']
     pw = data['pw']

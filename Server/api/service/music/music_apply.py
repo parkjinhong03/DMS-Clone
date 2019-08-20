@@ -23,7 +23,7 @@ def music_apply():
     if 'user' not in request.cookies:
         return '로그인을 먼저 해주세요.', 403
 
-    data = request.form
+    data = request.json
 
     date = data['date']
     title = data['title']

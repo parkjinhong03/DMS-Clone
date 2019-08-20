@@ -2,7 +2,7 @@
 기상 음악 신청 조회 모듈
 '''
 
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, jsonify
 import os
 import json
 
@@ -33,4 +33,4 @@ def music_list():
 
         return_dict[i] = date_dict
 
-    return return_dict, 200
+    return jsonify(return_dict), 200

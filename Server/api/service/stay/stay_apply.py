@@ -19,7 +19,7 @@ def stay_apply():
         return '로그인을 먼저 해주세요.', 403
 
     user = request.cookies.get('user')
-    stay = request.form['stay']
+    stay = request.json['stay']
     stay_list = ['금요귀가', '토요귀가', '토요귀사', '잔류']
 
     if stay not in stay_list:

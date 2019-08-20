@@ -13,7 +13,7 @@ def login():
     410 - 아이디 입력 오류
     411 - 비밀번호 입력 오류
     '''
-    data = request.form
+    data = request.json
 
     id = data['id']
     pw = data['pw']

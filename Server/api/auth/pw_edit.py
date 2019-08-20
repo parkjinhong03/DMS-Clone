@@ -14,7 +14,7 @@ def pw_edit():
     411 - 비밀번호와 비밀번호 확인 값이 다름
     '''
 
-    data = request.form
+    data = request.json
 
     pw = data['pw']
     pw_check = data['pw_check']

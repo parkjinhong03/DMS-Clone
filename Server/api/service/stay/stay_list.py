@@ -2,7 +2,7 @@
 전체 잔류 신청 조회 모듈
 '''
 
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, jsonify
 import os
 import json
 
@@ -22,4 +22,4 @@ def stay_list():
         with open('data/Stay/'+data, 'r') as f:
             return_dict[data] = f.readline()
 
-    return return_dict, 200
+    return jsonify(return_dict), 200
