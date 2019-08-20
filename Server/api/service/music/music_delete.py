@@ -29,5 +29,3 @@ def music_delete():
 
     if count == 0:
         return '전에 신청해준 기상 음악이 없습니다.', 411
-
-    os.remove('data/Music')
