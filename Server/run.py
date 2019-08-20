@@ -17,12 +17,14 @@ app.add_url_rule('/auth/signup',  'signup', signup, methods=['POST'])
 app.add_url_rule('/auth/login', 'login', login, methods=['POST'])
 app.add_url_rule('/auth/logout', 'logout', logout, methods=['POST'])
 app.add_url_rule('/auth/pw_edit', 'pw_edit', pw_edit, methods=['POST'])
-app.add_url_rule('/service/music/apply', 'music_apply', music_apply, methods=['POST'])
-app.add_url_rule('/service/music/delete', 'music_delete', music_delete, methods=['POST'])
-app.add_url_rule('/service/music/list', 'music_list', music_list, methods=['POST'])
-app.add_url_rule('/service/stay/apply', 'stay_apply', stay_apply, methods=['POST'])
-app.add_url_rule('/service/stay/list_my', 'stay_list_my', stay_list_my, methods=['POST'])
-app.add_url_rule('/service/stay/list', 'stay_list', stay_list, methods=['POST'])
+
+app.add_url_rule('/service/music', 'music_apply', music_apply, methods=['POST'])
+app.add_url_rule('/service/music', 'music_delete', music_delete, methods=['DELETE'])
+app.add_url_rule('/service/music', 'music_list', music_list, methods=['GET'])
+
+app.add_url_rule('/service/stay', 'stay_apply', stay_apply, methods=['POST'])
+app.add_url_rule('/service/stay', 'stay_list_my', stay_list_my, methods=['GET'])
+app.add_url_rule('/service/stay', 'stay_list', stay_list, methods=['GET'])
 
 if __name__ == '__main__':
     app.run(host= '10.156.147.138', port= 5000, debug= True)
