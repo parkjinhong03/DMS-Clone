@@ -23,7 +23,7 @@ app.add_url_rule('/service/music', 'music_delete', music_delete, methods=['DELET
 app.add_url_rule('/service/music', 'music_list', music_list, methods=['GET'])
 
 app.add_url_rule('/service/stay', 'stay_apply', stay_apply, methods=['POST'])
-app.add_url_rule('/service/stay', 'stay_list_my', stay_list_my, methods=['GET'])
+app.add_url_rule('/service/my-stay', 'stay_list_my', stay_list_my, methods=['GET'])
 app.add_url_rule('/service/stay', 'stay_list', stay_list, methods=['GET'])
 
 if __name__ == '__main__':

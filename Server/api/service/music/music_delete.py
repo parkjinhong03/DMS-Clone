@@ -9,13 +9,12 @@ def music_delete():
     '''
     :parameter: X
     :return: status code
-    410 로그인 상태 아님
-    411 기상 음악 신청 X
+    403 로그인 상태 아님
     200 기상 음악 신청 취소 완료
     '''
 
     if 'user' not in request.cookies:
-        return '로그인을 먼저 해주세요.', 410
+        return '로그인을 먼저 해주세요.', 403
     my_name = request.cookies.get('user')
 
     date_list = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
@@ -28,4 +27,4 @@ def music_delete():
             return '기상 음악 취소 완료!', 200
 
     if count == 0:
-        return '전에 신청해준 기상 음악이 없습니다.', 411
+        return '전에 신청해준 기상 음악이 없습니다.', 200

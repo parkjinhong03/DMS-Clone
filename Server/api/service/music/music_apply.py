@@ -10,10 +10,10 @@ def music_apply():
     '''
     :parameter: date(Mon, Tue, Wed, Thu, Fri), title, artist
     :return: status code
-    410 - 로그인 상태가 아님
+    403 - 로그인 상태가 아님
     411 - 해당 사용자가 한 주에 이미 기상 음악을 신청함
     412 - 당일 날에 이미 5개의 기상 음악이 신청됨
-    413 - date의 VALUE에 정해진 값으로 들어오지 않음 (client 입력 오류)
+    400 - date의 VALUE에 정해진 값으로 들어오지 않음 (client 입력 오류)
     200 - 기상 음악 신청 성공
     '''
 
@@ -21,7 +21,7 @@ def music_apply():
 
     # 410 예외 처리
     if 'user' not in request.cookies:
-        return '로그인을 먼저 해주세요.', 410
+        return '로그인을 먼저 해주세요.', 403
 
     data = request.form
 
@@ -32,7 +32,7 @@ def music_apply():
 
     # 413 예외처리
     if date not in date_list:
-        return 'date의 VALUE으로 정해진 문구를 넣어 주세요.(Mon, Tue, Wed, Thu, Fri)', 413
+        return 'date의 VALUE으로 정해진 문구를 넣어 주세요.(Mon, Tue, Wed, Thu, Fri)', 400
 
     # 411 예외처리
     for i in date_list:
