@@ -18,10 +18,10 @@ def login():
     id = data['id']
     pw = data['pw']
 
-    if os.path.exists('data/UserLog/'+id) == False:
+    if os.path.exists('V1/data/UserLog/'+id) == False:
         return '일치하지 않는 아이디입니다.', 410
 
-    with open('data/UserLog/'+id) as f:
+    with open('V1/data/UserLog/'+id) as f:
         if pw == f.readline():
             resp = make_response('로그인 성공!')
             resp.set_cookie('user', id)

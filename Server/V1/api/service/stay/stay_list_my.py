@@ -22,7 +22,7 @@ def stay_list_my():
     user = request.cookies.get('user')
 
     try:
-        with open('data/Stay/'+user) as f:
+        with open('V1/data/Stay/'+user) as f:
             data = f.readline()
 
         dict['my_stay'] = data

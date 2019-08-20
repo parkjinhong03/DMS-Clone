@@ -21,8 +21,8 @@ def music_delete():
 
     count = 0
     for i in date_list:
-        if os.path.exists('data/Music/'+i+'/'+my_name):
-            os.remove('data/Music/'+i+'/'+my_name)
+        if os.path.exists('V1/data/Music/'+i+'/'+my_name):
+            os.remove('V1/data/Music/'+i+'/'+my_name)
             count += 1
             return '기상 음악 취소 완료!', 200
 

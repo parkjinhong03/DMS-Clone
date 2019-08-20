@@ -36,18 +36,18 @@ def music_apply():
 
     # 411 예외처리
     for i in date_list:
-        if os.path.exists('data/Music/'+i+'/'+my_name):
+        if os.path.exists('V1/data/Music/'+i+'/'+my_name):
             return '이미 기상 음악 신청을 하셨네요!', 411
 
     # 412 예외처리
     count = 0
-    for _ in os.listdir('data/Music/'+date):
+    for _ in os.listdir('V1/data/Music/'+date):
         count += 1
     if count == 5:
         return f'아쉽게도 {data}은 기상 음악 신청이 마감됬어요ㅜㅜ', 412
 
     # 200 처리
-    with open('data/Music/'+date+'/'+my_name, 'w') as f:
+    with open('V1/data/Music/'+date+'/'+my_name, 'w') as f:
         music_dict = {}
         music_dict["title"] = title
         music_dict["artist"] = artist

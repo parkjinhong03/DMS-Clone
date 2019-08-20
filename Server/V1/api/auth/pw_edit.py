@@ -27,7 +27,7 @@ def pw_edit():
 
     user_id = request.cookies.get('user')
 
-    with open('data/UserLog/'+user_id, 'w') as f:
+    with open('V1/data/UserLog/'+user_id, 'w') as f:
         f.write(pw)
 
     return '비밀번호 변경 완료!', 200

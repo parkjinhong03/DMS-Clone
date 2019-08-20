@@ -23,8 +23,8 @@ def music_list():
     for i in date_list:
         date_dict = {}
 
-        for j in os.listdir('data/Music/'+i):
-            with open('data/Music/'+i+'/'+j, 'r') as f:
+        for j in os.listdir('V1/data/Music/'+i):
+            with open('V1/data/Music/'+i+'/'+j, 'r') as f:
                 user_dict = {}
                 data = json.loads(f.readline())
                 user_dict['title'] = data['title']

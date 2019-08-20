@@ -25,7 +25,7 @@ def stay_apply():
     if stay not in stay_list:
         return 'stay의 VALUE 값으로 정해진 문구를 넣어 주세요.(금요귀가, 토요귀가, 토요귀사, 잔류)', 400
 
-    with open('data/Stay/' + user, 'w') as f:
+    with open('V1/data/Stay/' + user, 'w') as f:
         f.write(stay)
 
     return '잔류 신청 완료!', 200

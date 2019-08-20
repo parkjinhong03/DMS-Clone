@@ -18,8 +18,8 @@ def stay_list():
         return '로그인을 먼저 해주세요', 403
 
     return_dict = {}
-    for data in os.listdir('data/Stay'):
-        with open('data/Stay/'+data, 'r') as f:
+    for data in os.listdir('V1/data/Stay'):
+        with open('V1/data/Stay/'+data, 'r') as f:
             return_dict[data] = f.readline()
 
     return jsonify(return_dict), 200
