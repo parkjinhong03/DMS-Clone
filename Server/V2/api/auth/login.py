@@ -4,8 +4,7 @@
 
 from Server.V2.DB_func.connect import connect
 from Server.V2.DB_func.auth.id_exist import id_exist
-from flask import Flask, request, make_response
-import os
+from flask import request, make_response
 
 def login():
     '''

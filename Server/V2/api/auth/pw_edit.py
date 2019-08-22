@@ -2,11 +2,11 @@
 비밀번호 변경 모듈
 '''
 
-
+from Server.V2.api.cookie_decorator import login_required
 from Server.V2.DB_func.connect import connect
-from flask import Flask, request, make_response
-import os
+from flask import request
 
+@login_required
 def pw_edit():
     '''
     :parameter: pw, pw_check
@@ -20,9 +20,6 @@ def pw_edit():
 
     pw = data['pw']
     pw_check = data['pw_check']
-
-    if 'user' not in request.cookies:
-        return '로그인을 먼저 해주세요.', 410
 
     if pw != pw_check:
         return '비밀번호와 비밀번호 확인이 서로 같지 않습니다.', 411

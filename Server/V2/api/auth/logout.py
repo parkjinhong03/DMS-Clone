@@ -2,9 +2,11 @@
 로그아웃 모듈
 '''
 
-from flask import Flask, request, make_response
-import os
+from Server.V2.api.cookie_decorator import login_required
+from flask import make_response
 
+
+@login_required
 def logout():
     '''
     :parameter: X
@@ -12,9 +14,6 @@ def logout():
     200 - 로그아웃 성공
     410 - 로그인 상태가 아님
     '''
-
-    if 'user' not in request.cookies:
-        return '로그인을 먼저 해주세요.', 410
 
     resp = make_response('로그아웃 완료!')
     resp.set_cookie('user', '', expires=0)
