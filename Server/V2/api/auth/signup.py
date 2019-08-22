@@ -33,11 +33,22 @@ def signup():
 
     try:
         cur.execute(sql)
+
     except pymysql.err.InternalError:
         pass
 
-    
+    if pw != pw_check:
+        return "pw != pw_check", 411
 
+    sql = f'select EXISTS (select * from userlog where user_id="{id}") as success'
+
+    cur.execute(sql)
+
+    if cur.fetchone()[0] == 1:
+        return '이미 존재하는 아이디 입니다.', 400
+
+    sql = f'INSERT INTO UserLog (user_id, user_pw) VALUES("{id}", "{pw}")'
+    cur.execute(sql)
 
     con.commit()
     con.close()
