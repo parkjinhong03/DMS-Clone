@@ -2,14 +2,16 @@
 회원가입 모듈
 '''
 
+from Server.V2.DB_func.connect import connect
 from flask import Flask, request
 import os
+import pymysql
 
 
 def signup():
     '''
     :parameter: id, pw, pw_check
-    :return: status_code
+        :return: status_code
     200 - 완료
     410 - 이미 존재하는 아이디
     411 - 비밀번호와 비밀번호 확인 값이 다름
@@ -20,13 +22,24 @@ def signup():
     pw = data['pw']
     pw_check = data['pw_check']
 
-    if os.path.exists('V1/data/UserLog/'+id):
-        return '아이디가 이미 존재합니다.', 410
+    cur, con = connect()
 
-    if pw != pw_check:
-        return '비밀번호와 비밀번호 확인이 서로 같지 않습니다.', 411
+    sql = "create table UserLog("\
+          "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,"\
+          "user_id text," \
+          "user_pw text," \
+          "PRIMARY KEY (id)" \
+          ");"
 
-    with open('V1/data/UserLog/'+id, 'w') as f:
-        f.write(pw)
+    try:
+        cur.execute(sql)
+    except pymysql.err.InternalError:
+        pass
+
+    
+
+
+    con.commit()
+    con.close()
 
     return '회원가입 성공!', 200
