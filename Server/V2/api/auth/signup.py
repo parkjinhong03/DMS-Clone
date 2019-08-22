@@ -2,6 +2,7 @@
 회원가입 모듈
 '''
 
+from Server.V2.DB_func.auth.id_exist import id_exist
 from Server.V2.DB_func.connect import connect
 from flask import Flask, request
 import os
@@ -22,7 +23,7 @@ def signup():
     pw = data['pw']
     pw_check = data['pw_check']
 
-    cur, con = connect()
+    con, cur= connect()
 
     sql = "create table UserLog("\
           "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,"\
@@ -40,11 +41,7 @@ def signup():
     if pw != pw_check:
         return "pw != pw_check", 411
 
-    sql = f'select EXISTS (select * from userlog where user_id="{id}") as success'
-
-    cur.execute(sql)
-
-    if cur.fetchone()[0] == 1:
+    if id_exist(con, cur, id) == True:
         return '이미 존재하는 아이디 입니다.', 400
 
     sql = f'INSERT INTO UserLog (user_id, user_pw) VALUES("{id}", "{pw}")'

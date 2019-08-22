@@ -2,6 +2,7 @@
 로그인 모듈
 '''
 
+from Server.V2.DB_func.connect import connect
 from flask import Flask, request, make_response
 import os
 
@@ -17,6 +18,8 @@ def login():
 
     id = data['id']
     pw = data['pw']
+
+    con, cur = connect()
 
     if os.path.exists('V1/data/UserLog/'+id) == False:
         return '일치하지 않는 아이디입니다.', 410
