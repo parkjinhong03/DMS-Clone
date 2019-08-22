@@ -13,11 +13,6 @@ from Server.V2.api.service.stay.stay_apply import stay_apply
 from Server.V2.api.service.stay.stay_list_my import stay_list_my
 from Server.V2.api.service.stay.stay_list import stay_list
 
-app.add_url_rule('/auth/signup',  'signup', signup, methods=['POST'])
-app.add_url_rule('/auth/login', 'login', login, methods=['POST'])
-app.add_url_rule('/auth/logout', 'logout', logout, methods=['POST'])
-app.add_url_rule('/auth/pw-edit', 'pw_edit', pw_edit, methods=['POST'])
-
 app.add_url_rule('/service/music', 'music_apply', music_apply, methods=['POST'])
 app.add_url_rule('/service/music', 'music_delete', music_delete, methods=['DELETE'])
 app.add_url_rule('/service/music', 'music_list', music_list, methods=['GET'])
@@ -25,6 +20,11 @@ app.add_url_rule('/service/music', 'music_list', music_list, methods=['GET'])
 app.add_url_rule('/service/stay', 'stay_apply', stay_apply, methods=['POST'])
 app.add_url_rule('/service/my-stay', 'stay_list_my', stay_list_my, methods=['GET'])
 app.add_url_rule('/service/stay', 'stay_list', stay_list, methods=['GET'])
+
+app.add_url_rule('/auth/signup',  'signup', signup, methods=['POST'])
+app.add_url_rule('/auth/signup', 'pw_edit', pw_edit, methods=['PUT'])
+app.add_url_rule('/auth/login', 'login', login, methods=['POST'])
+app.add_url_rule('/auth/logout', 'logout', logout, methods=['POST'])
 
 if __name__ == '__main__':
     app.run(host= '10.156.147.138', port= 5000, debug= True)

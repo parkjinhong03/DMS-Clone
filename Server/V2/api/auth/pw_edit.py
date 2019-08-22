@@ -2,6 +2,8 @@
 비밀번호 변경 모듈
 '''
 
+
+from Server.V2.DB_func.connect import connect
 from flask import Flask, request, make_response
 import os
 
@@ -27,7 +29,12 @@ def pw_edit():
 
     user_id = request.cookies.get('user')
 
-    with open('V1/data/UserLog/'+user_id, 'w') as f:
-        f.write(pw)
+    con, cur = connect()
+
+    sql = f'UPDATE UserLog SET user_pw = "{pw}" WHERE user_id = "{user_id}"'
+    cur.execute(sql)
+
+    con.commit()
+    con.close()
 
     return '비밀번호 변경 완료!', 200
