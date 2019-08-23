@@ -3,10 +3,9 @@
 '''
 
 from Server.V2.DB_func.connect import connect
-from Server.V2.DB_func.service.music_exist import music_exist
+from Server.V2.DB_func.service.Music.music_exist import music_exist
 from Server.V2.api.cookie_decorator import login_required
-from flask import Flask, request, make_response
-import os
+from flask import request
 
 
 @login_required

@@ -2,11 +2,9 @@
 기상 음악 신청 조회 모듈
 '''
 
-from Server.V2.DB_func.service.music_count import music_count
 from Server.V2.DB_func.connect import connect
 from Server.V2.api.cookie_decorator import login_required
 from flask import jsonify, request
-import json
 
 
 @login_required
@@ -41,5 +39,7 @@ def music_list():
             date_dict[i[0]] = user_dict
 
         return_dict[date] = date_dict
+
+        con.close()
 
     return jsonify(return_dict), 200
