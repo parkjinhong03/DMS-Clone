@@ -2,11 +2,13 @@
 내 잔류 신청 조회 모듈
 '''
 
+from Server.V2.api.cookie_decorator import login_required
 from flask import Flask, request, make_response, jsonify
 import os
 import json
 
 
+@login_required
 def stay_list_my():
     '''
     :parameter: X
