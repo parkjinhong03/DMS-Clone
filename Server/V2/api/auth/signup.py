@@ -30,7 +30,7 @@ def signup():
           "user_id text," \
           "user_pw text," \
           "PRIMARY KEY (id)" \
-          ");"
+          ") DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;"
 
     try:
         cur.execute(sql)

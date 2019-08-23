@@ -2,10 +2,15 @@
 기상 음악 신청 모듈
 '''
 
-from flask import Flask, request, make_response
+from Server.V2.DB_func.service.exist_music import exist_music
+from Server.V2.api.cookie_decorator import login_required
+from Server.V2.DB_func.connect import connect
+from flask import request
 import os
 import json
 
+
+@login_required
 def music_apply():
     '''
     :parameter: date(Mon, Tue, Wed, Thu, Fri), title, artist
@@ -17,11 +22,23 @@ def music_apply():
     200 - 기상 음악 신청 성공
     '''
 
-    date_list = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+    con, cur = connect()
 
-    # 410 예외 처리
-    if 'user' not in request.cookies:
-        return '로그인을 먼저 해주세요.', 403
+    sql = "CREATE TABLE Music (" \
+          "     id BIGINT(20) unsigned NOT NULL AUTO_INCREMENT," \
+          "     user_id TEXT NOT NULL," \
+          "     date TEXT NOT NULL," \
+          "     title TEXT NOT NULL," \
+          "     artist TEXT NOT NULL," \
+          "     PRIMARY KEY (id)" \
+          ") DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;"
+
+    try:
+        cur.execute(sql)
+    except:
+        pass
+
+    date_list = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
 
     data = request.json
 
@@ -34,23 +51,23 @@ def music_apply():
     if date not in date_list:
         return 'date의 VALUE으로 정해진 문구를 넣어 주세요.(Mon, Tue, Wed, Thu, Fri)', 400
 
-    # 411 예외처리
-    for i in date_list:
-        if os.path.exists('V1/data/Music/'+i+'/'+my_name):
-            return '이미 기상 음악 신청을 하셨네요!', 411
-
     # 412 예외처리
-    count = 0
-    for _ in os.listdir('V1/data/Music/'+date):
-        count += 1
-    if count == 5:
-        return f'아쉽게도 {data}은 기상 음악 신청이 마감됬어요ㅜㅜ', 412
+    sql = f'SELECT COUNT(*) as count FROM music where date="{date}";'
+
+    cur.execute(sql)
+    if cur.fetchone()[0] >= 5:
+        return f"음악 신청이 만료되었습니다.", 412
+
+    # 411 예외처리
+    if exist_music(con, cur, my_name) == True:
+        return '이미 음악신청을 하셨습니다.', 411
 
     # 200 처리
-    with open('V1/data/Music/'+date+'/'+my_name, 'w') as f:
-        music_dict = {}
-        music_dict["title"] = title
-        music_dict["artist"] = artist
-        f.write(json.dumps(music_dict))
+    sql = f'INSERT INTO music (user_id, date, title, artist) VALUES("{my_name}", "{date}", "{title}", "{artist}")'
+
+    cur.execute(sql)
+    con.commit()
+
+    con.close()
 
     return '기상 음악 신청 완료!', 200
