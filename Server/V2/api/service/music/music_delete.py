@@ -3,7 +3,7 @@
 '''
 
 from Server.V2.DB_func.connect import connect
-from Server.V2.DB_func.service.exist_music import exist_music
+from Server.V2.DB_func.service.music_exist import music_exist
 from Server.V2.api.cookie_decorator import login_required
 from flask import Flask, request, make_response
 import os
@@ -23,7 +23,7 @@ def music_delete():
 
     con, cur = connect()
 
-    if exist_music(con, cur, my_name) == False:
+    if music_exist(con, cur, my_name) == False:
         return "전에 신청해둔 음악이 없습니다.", 410
 
     sql = f'DELETE FROM music WHERE user_id="{my_name}"'

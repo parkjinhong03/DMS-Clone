@@ -2,10 +2,14 @@
 기상 음악 신청 조회 모듈
 '''
 
-from flask import Flask, request, make_response, jsonify
-import os
+from Server.V2.DB_func.service.music_count import music_count
+from Server.V2.DB_func.connect import connect
+from Server.V2.api.cookie_decorator import login_required
+from flask import jsonify, request
 import json
 
+
+@login_required
 def music_list():
     '''
     :parameter: X
@@ -14,23 +18,28 @@ def music_list():
     403 - 로그인 상태 아님
     '''
 
-    if 'user' not in request.cookies:
-        return '로그인을 먼저 해주세요.', 403
+    con, cur = connect()
 
     date_list = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     return_dict = {}
 
-    for i in date_list:
+    my_user = request.cookies.get('user')
+
+    for date in date_list:
         date_dict = {}
 
-        for j in os.listdir('V1/data/Music/'+i):
-            with open('V1/data/Music/'+i+'/'+j, 'r') as f:
-                user_dict = {}
-                data = json.loads(f.readline())
-                user_dict['title'] = data['title']
-                user_dict['artist'] = data['artist']
-                date_dict[j] = user_dict
+        sql = f'SELECT user_id, artist, title FROM music WHERE date="{date}"'
 
-        return_dict[i] = date_dict
+        cur.execute(sql)
+        music_data = list(cur.fetchall())
+
+        for i in music_data:
+            user_dict = {}
+            user_dict['artist'] = i[1]
+            user_dict['title'] = i[2]
+
+            date_dict[i[0]] = user_dict
+
+        return_dict[date] = date_dict
 
     return jsonify(return_dict), 200

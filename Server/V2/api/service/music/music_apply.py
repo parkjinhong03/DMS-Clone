@@ -2,7 +2,8 @@
 기상 음악 신청 모듈
 '''
 
-from Server.V2.DB_func.service.exist_music import exist_music
+from Server.V2.DB_func.service.music_count import music_count
+from Server.V2.DB_func.service.music_exist import music_exist
 from Server.V2.api.cookie_decorator import login_required
 from Server.V2.DB_func.connect import connect
 from flask import request
@@ -52,14 +53,11 @@ def music_apply():
         return 'date의 VALUE으로 정해진 문구를 넣어 주세요.(Mon, Tue, Wed, Thu, Fri)', 400
 
     # 412 예외처리
-    sql = f'SELECT COUNT(*) as count FROM music where date="{date}";'
-
-    cur.execute(sql)
-    if cur.fetchone()[0] >= 5:
+    if  music_count(con, cur, date) >= 5:
         return f"음악 신청이 만료되었습니다.", 412
 
     # 411 예외처리
-    if exist_music(con, cur, my_name) == True:
+    if music_exist(con, cur, my_name) == True:
         return '이미 음악신청을 하셨습니다.', 411
 
     # 200 처리
