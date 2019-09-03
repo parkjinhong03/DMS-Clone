@@ -5,6 +5,9 @@
 from Server.V2.DB_func.connect import connect
 from Server.V2.DB_func.auth.id_exist import id_exist
 from flask import request, make_response
+from flask_restful import reqparse
+from flask_jwt_extended import create_access_token
+
 
 def login():
     '''
@@ -15,30 +18,29 @@ def login():
     410 - 아이디 입력 오류
     411 - 비밀번호 입력 오류
     '''
-    data = request.json
+    parser = reqparse.RequestParser()
+    parser.add_argument('id', type=str)
+    parser.add_argument('pw', type=str)
+    args = parser.parse_args()
 
-    id = data['id']
-    pw = data['pw']
+    _id = args['id']
+    _pw = args['pw']
 
     con, cur = connect()
 
-    if 'user' in request.cookies:
-        return '이미 로그인이 되어 있습니다.', 403
 
-    if id_exist(con, cur, id) == False:
-        return '일치하지 않는 아이디입니다.', 410
+    if id_exist(con, cur, _id) == False:
+        return {"message": "아이디가 이미 존재합니다.", "code": 410}, 410
 
-    sql = f'SELECT user_id, user_pw FROM UserLog WHERE user_id = "{id}"'
+    sql = f'SELECT user_id, user_pw FROM UserLog WHERE user_id = "{_id}"'
 
     cur.execute(sql)
     log_data = cur.fetchone()
     con.close()
 
-    if pw == log_data[1]:
-        resp = make_response("로그인 성공")
-        resp.set_cookie('user', id)
+    if _pw == log_data[1]:
+        access_token = create_access_token(identity=_id)
+        return {"access_token": access_token, "code": 200}, 200
 
-        return resp, 200
-
-    elif pw != log_data[1]:
-        return '일치하지 않는 비밀번호 입니다.', 411
+    elif _pw != log_data[1]:
+        return {"message": "일치하지 않는 비밀번호", "code": 411}, 411

@@ -5,9 +5,11 @@
 from Server.V2.DB_func.connect import connect
 from Server.V2.api.cookie_decorator import login_required
 from flask import jsonify, request
+from flask_restful import reqparse
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-@login_required
+@jwt_required
 def music_list():
     '''
     :parameter: X
@@ -21,7 +23,7 @@ def music_list():
     date_list = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
     return_dict = {}
 
-    my_user = request.cookies.get('user')
+    my_user = get_jwt_identity()
 
     for date in date_list:
         date_dict = {}
@@ -40,6 +42,6 @@ def music_list():
 
         return_dict[date] = date_dict
 
-        con.close()
+    con.close()
 
-    return jsonify(return_dict), 200
+    return return_dict, 200

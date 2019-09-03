@@ -5,8 +5,11 @@
 from Server.V2.api.cookie_decorator import login_required
 from Server.V2.DB_func.connect import connect
 from flask import request
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_restful import reqparse
 
-@login_required
+
+@jwt_required
 def pw_edit():
     '''
     :parameter: pw, pw_check
@@ -16,19 +19,22 @@ def pw_edit():
     411 - 비밀번호와 비밀번호 확인 값이 다름
     '''
 
-    data = request.json
+    parser = reqparse.RequestParser()
+    parser.add_argument('pw', type=str)
+    parser.add_argument('pw_check', type=str)
+    args = parser.parse_args()
 
-    pw = data['pw']
-    pw_check = data['pw_check']
+    _pw = args['pw']
+    _pwCheck = args['pw_check']
 
-    if pw != pw_check:
+    if _pw != _pwCheck:
         return '비밀번호와 비밀번호 확인이 서로 같지 않습니다.', 411
 
-    user_id = request.cookies.get('user')
+    user_id = get_jwt_identity()
 
     con, cur = connect()
 
-    sql = f'UPDATE UserLog SET user_pw = "{pw}" WHERE user_id = "{user_id}"'
+    sql = f'UPDATE UserLog SET user_pw = "{_pw}" WHERE user_id = "{user_id}"'
     cur.execute(sql)
 
     con.commit()
