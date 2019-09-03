@@ -5,10 +5,11 @@
 from Server.V2.DB_func.connect import connect
 from Server.V2.DB_func.service.Music.music_exist import music_exist
 from Server.V2.api.cookie_decorator import login_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import request
 
 
-@login_required
+@jwt_required
 def music_delete():
     '''
     :parameter: X
@@ -18,7 +19,7 @@ def music_delete():
     200 기상 음악 신청 취소 완료
     '''
 
-    my_name = request.cookies.get('user')
+    my_name = get_jwt_identity()
 
     con, cur = connect()
 
