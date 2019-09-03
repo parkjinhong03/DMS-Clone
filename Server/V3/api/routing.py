@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from Server.V3.api.auth import login, pw_edit, signup
 from Server.V3.api.service.music import music_apply, music_delete, music_list
+from Server.V3.api.service.stay import stay_list, stay_list_my, stay_apply
 
 
 class user(Resource):
@@ -35,3 +36,16 @@ class music(Resource):
 
     def delete(self):
         return music_delete.music_delete()
+
+
+class stay(Resource):
+    def get(self):
+        return stay_list.stay_list()
+
+    def post(self):
+        return stay_apply.stay_apply()
+
+
+class my_stay(Resource):
+    def get(self):
+        return stay_list_my.stay_list_my()

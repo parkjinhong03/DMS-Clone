@@ -4,12 +4,12 @@
 
 from Server.V2.DB_func.service.Stay.stay_exist import stay_exist
 from Server.V2.DB_func.connect import connect
-from Server.V2.api.cookie_decorator import login_required
 from flask import Flask, request, make_response
-import os
-import json
+from flask_restful import reqparse
+from flask_jwt_extended import get_jwt_identity, jwt_required
 
-@login_required
+
+@jwt_required
 def stay_apply():
     '''
     :parameter: stay(금요귀가, 토요귀가, 토요귀사, 잔류)
@@ -22,14 +22,19 @@ def stay_apply():
 
     con, cur = connect()
 
-    user = request.cookies.get('user')
-    stay = request.json['stay']
+    user = get_jwt_identity()
+
+    req = reqparse.RequestParser()
+    req.add_argument('stay', type=str)
+    args = req.parse_args()
+    _stay = args['stay']
+
     stay_list = {'금요귀가': '1',
                  '토요귀가': '2',
                  '토요귀사': '3',
                  '잔류': '4'}
 
-    if stay not in ['금요귀가', '토요귀가', '토요귀사', '잔류']:
+    if _stay not in ['금요귀가', '토요귀가', '토요귀사', '잔류']:
         return 'stay의 VALUE 값으로 정해진 문구를 넣어 주세요.(금요귀가, 토요귀가, 토요귀사, 잔류)', 400
 
     if stay_exist(con, cur, user) == True:
@@ -47,7 +52,7 @@ def stay_apply():
     except:
         pass
 
-    sql = f'INSERT INTO stay (user_id, stay) VALUES("{user}", "{stay_list[stay]}")'
+    sql = f'INSERT INTO stay (user_id, stay) VALUES("{user}", "{stay_list[_stay]}")'
     cur.execute(sql)
 
     con.close()

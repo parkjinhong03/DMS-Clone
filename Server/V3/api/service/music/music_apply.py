@@ -4,7 +4,6 @@
 
 from Server.V2.DB_func.service.Music.music_count import music_count
 from Server.V2.DB_func.service.Music.music_exist import music_exist
-from Server.V2.api.cookie_decorator import login_required
 from Server.V2.DB_func.connect import connect
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import reqparse

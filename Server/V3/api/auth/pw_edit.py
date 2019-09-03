@@ -2,7 +2,6 @@
 비밀번호 변경 모듈
 '''
 
-from Server.V2.api.cookie_decorator import login_required
 from Server.V2.DB_func.connect import connect
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity

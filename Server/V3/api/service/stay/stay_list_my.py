@@ -4,11 +4,10 @@
 
 from Server.V2.DB_func.connect import connect
 from Server.V2.DB_func.service.Stay.stay_exist import stay_exist
-from Server.V2.api.cookie_decorator import login_required
-from flask import request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-@login_required
+@jwt_required
 def stay_list_my():
     '''
     :parameter: X
@@ -23,7 +22,7 @@ def stay_list_my():
                  '3': '토요귀사',
                  '4': '잔류'}
     dict = {}
-    user = request.cookies.get('user')
+    user = get_jwt_identity()
 
     con, cur = connect()
 
@@ -35,4 +34,4 @@ def stay_list_my():
 
     dict['stay'] = stay_list[cur.fetchone()[0]]
 
-    return jsonify(dict)
+    return dict, 200

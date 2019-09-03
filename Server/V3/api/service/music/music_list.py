@@ -3,7 +3,6 @@
 '''
 
 from Server.V2.DB_func.connect import connect
-from Server.V2.api.cookie_decorator import login_required
 from flask import jsonify, request
 from flask_restful import reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity

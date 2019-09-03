@@ -3,12 +3,11 @@
 '''
 
 from Server.V2.DB_func.connect import connect
-from Server.V2.api.cookie_decorator import login_required
 from flask import Flask, request, make_response, jsonify
-import os
-import json
+from flask_jwt_extended import jwt_required
 
-@login_required
+
+@jwt_required
 def stay_list():
     '''
     :parameter: X
@@ -44,4 +43,4 @@ def stay_list():
         return_dict[str(count)] = user_dict
         count += 1
 
-    return jsonify(return_dict), 200
+    return return_dict, 200
